@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragmentos::encabezado(~{::title},~{})">
+<title>Bienvenida</title>
+
+</head>
+<body>
+<header th:replace="fragmentos::cabecera"></header>
+
+<nav th:replace="fragmentos::navbar"></nav>
+
+<main>
+    <div class="container-fluid text-center">
+        <br>
+        <h1 class="text-primary text-center" th:text="#{main.bienvenida}">¡Bienvenido al servicio de gestión de libros!</h1>
+        <br><br>
+        <span class="fa fa-book fa-6x" aria-hidden="true"></span>
+        <br><br>
+        <div class="d-flex justify-content-center">
+
+            <button type="button" class="btn btn-secondary m-1 btn-outline-dark btn-lg ">
+                <span class="spinner-grow spinner-grow-sm text-white"></span>
+                <a class="text-white" th:href="@{/libro/list}" th:text="#{main.comenzar}">Comenzar</a>
+                <span class="spinner-grow spinner-grow-sm text-white"></span>
+            </button>
+
+        </div>
+        <br><br>
+    </div>
+
+</main>
+
+<footer th:replace="fragmentos::pie_pagina"></footer>
+
+<th:block th:replace="fragmentos::jsfinal(~{})"></th:block>
+</body>
+</html>

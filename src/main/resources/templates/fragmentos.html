@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="encabezado(titulo,enlaces)">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title th:replace="${titulo}">Práctica</title>
+
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet">
+    <th:block th:replace="${enlaces}"></th:block>
+
+</head>
+
+<body>
+
+<!-- Cabecera -->
+<header class="container-fluid p-3 bg-primary text-white text-center" th:fragment="cabecera">
+    <h1 th:text="#{header.biblioteca}">Biblioteca Pública</h1>
+    <span  class="fa fa-book-reader fa-3x" aria-hidden="true"></span>
+</header>
+
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-secondary" th:fragment="navbar">
+    <div class="container-fluid">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/" th:text="#{header.inicio}">Inicio</a>
+                </li>
+            </ul>
+
+            <div class="dropdown text-end">
+                <button type="button" class="btn btn-primary m-1 dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-user"></i><span th:text="' ' + ${#authentication.name}">Opciones</span>
+                </button>
+                <ul class="dropdown-menu text-center">
+                    <li>
+                        <span class="dropdown-item" th:text="#{header.menu.visitas} + ': ' + ${session.num_visitas}"></span>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" sec:authorize="isAuthenticated()" href=""
+                           th:href="@{/libro/list}"><i class="fa fa-list"></i> <span th:text="#{header.libros}">Listado</span></a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <span th:if="${#authentication.name == 'admin'}">
+                    <li><a class="dropdown-item" sec:authorize="isAuthenticated()" href=""
+                           th:href="@{/libro/new}"><i class="fa fa-plus"></i> <span th:text="#{header.añadir}">Nuevo libro</span></a></li>
+                        <li><hr class="dropdown-divider"></li>
+                    </span>
+
+                    <li><a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">
+                        <i class="fas fa-sign-out-alt"></i><span th:text="#{header.salir}">Salir</span></a></li>
+
+                </ul>
+                <form th:action="@{/logout}" method="post" id="logoutForm"></form>
+            </div>
+
+            <div class="dropdown text-end">
+                <button type="button" class="btn btn-primary m-1 dropdown-toggle" data-bs-toggle="dropdown" th:text="#{header.idioma}">
+                    Idioma
+                </button>
+                <ul class="dropdown-menu text-center">
+                    <li><a class="dropdown-item" th:href="@{''(lang=es_ES)}">
+                        <i class="fa fa-caret-square-up"></i> <span th:text="#{header.lang.es}">Español</span></a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" th:href="@{''(lang=en_US)}">
+                        <i class="fa fa-caret-square-up"></i> <span th:text="#{header.lang.en}">Inglés</span></a></li>
+                </ul>
+            </div>
+            <div class="form-check form-switch">
+                <label class="form-check-label" for="lightSwitch"><i class="fa fa-moon"></i></label>
+                <input class="form-check-input" type="checkbox" id="lightSwitch"/>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Lista empleados -->
+<table class="table" id="lista-libros" th:fragment="lista-libros">
+    <thead>
+    <tr>
+        <th th:text="#{list.id}">ID</th>
+        <th th:text="#{list.titulo}">Título</th>
+        <th th:text="#{list.autor}">Autor</th>
+        <th th:text="#{list.editorial}">Editorial</th>
+        <th th:text="#{list.publicacion}">Año Publicación</th>
+        <th th:text="#{list.edicion}">Año Edición</th>
+        <th th:text="#{list.idioma}">Idioma</th>
+        <th th:text="#{list.genero}">Género</th>
+        <th th:text="#{list.obervaciones}">Observaciones</th>
+        <th th:text="#{list.cantidad}">Cantidad</th>
+        <th th:text="#{list.disponible}">Disponible</th>
+        <span th:if="${#authentication.name != 'invitado'}">
+            <th th:text="#{list.operaciones}">Operaciones</th>
+        </span>
+    </thead>
+    <tbody>
+    <tr th:each="libro : ${listaLibros}">
+        <td th:text="${libro.id}">ID</td>
+        <td th:text="${libro.titulo}"></td>
+        <td th:text="${libro.autor}"></td>
+        <td th:text="${libro.editorial}"></td>
+        <td th:text="${libro.anioPublicacion}"></td>
+        <td th:text="${libro.anioEdicion}"></td>
+        <td th:text="${libro.idioma.nombre}"></td>
+        <td th:text="${libro.genero}"></td>
+        <td th:text="${libro.observaciones}"></td>
+        <td th:text="${libro.cantidad}"></td>
+        <td>
+            <span th:if="${libro.disponible}" class="fa fa-book" aria-hidden="true"></span>
+            <span th:unless="${libro.disponible}" class="fa fa-minus-circle" aria-hidden="true"></span>
+        </td>
+        <td>
+            <span th:if="${#authentication.name != 'invitado'}">
+            <a th:href="@{/libro/edit/{id}(id=${libro.id})}" sec:authorize="isAuthenticated()" aria-label="Editar"><span class="fas fa-edit" aria-hidden="true"></span></a>
+            </span>
+            <span th:if="${#authentication.name == 'admin'}">
+            <a href="#" data-bs-toggle="modal" sec:authorize="isAuthenticated()" th:data-bs-target="'#delete-modal_' + ${libro.id}" aria-label="Borrar">
+                <span class="fas fa-trash" aria-hidden="true"></span></a>
+            </span></td>
+
+        <div class="modal fade" th:id="'delete-modal_' + ${libro.id}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" th:text="#{libro.borrar.titulo}">Borrar libro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p th:text="#{libro.borrar.mensaje}">¿Confirma la eliminación de este libro del registro?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{libro.borrar.cancelar}">Cancelar</button>
+                        <a th:href="@{/libro/delete/{id}(id=${libro.id})}" class="btn btn-primary" th:text="#{libro.borrar.aceptar}">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Buscador -->
+<div class="col-sm-2" th:fragment="buscador">
+    <div id="accordion">
+        <div class="card p-0 bg-secondary text-white">
+            <a class="btn text-white" data-bs-toggle="collapse" href="#collapseOne">
+                <i class="fa fa-search"></i> <span th:text="#{list.titulo}">Título</span>
+            </a>
+            <div id="collapseOne" class="collapse" data-bs-parent="#accordion">
+                <div class="card-body">
+                    <form method="post" action="#" th:action="@{/libro/list/filter}">
+                        <input type="text" class="form-control" id="titulo" placeholder="Título" name="titulo"
+                               onkeyup="javascript:filter_by_titulo()"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card p-0 bg-secondary text-white">
+            <a class="collapsed btn text-white" data-bs-toggle="collapse" href="#collapseTwo">
+                <i class="fa fa-search"></i> <span th:text="#{list.autor}">Autor</span>
+            </a>
+            <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
+                <div class="card-body">
+                    <form method="post" action="#" th:action="@{/libro/list/filter/autor}">
+                        <input type="text" class="form-control" id="autor" placeholder="Autor" name="autor"
+                               onkeyup="javascript:filter_by_autor()"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pie de página -->
+<footer class="container-fluid py-3 bg-primary text-center" th:fragment="pie_pagina">
+    <p class="text-white">Cristina Gómez Campos</p>
+    <a sec:authorize="isAuthenticated()" href="" th:href="@{/aviso}" th:text="#{footer.aviso}" class="text-light" target="_blank">Aviso legal</a>
+    <br>
+    <a sec:authorize="isAuthenticated()" href="" th:href="@{/privacidad}" th:text="#{footer.privacidad}" class="text-light" target="_blank">Política de privacidad</a>
+</footer>
+
+<!-- Script final-->
+<th:block th:fragment="jsfinal(scripts)">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/js/switch.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+
+    <!-- Scripts adicionales -->
+    <th:block th:replace="${scripts}"/>
+</th:block>
+</body>
+</html>

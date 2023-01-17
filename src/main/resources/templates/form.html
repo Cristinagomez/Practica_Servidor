@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragmentos::encabezado(~{::title},~{})">
+    <title>Formulario</title>
+</head>
+<body>
+<header th:replace="fragmentos::cabecera"></header>
+
+<nav th:replace="fragmentos::navbar"></nav>
+
+<main class="container py-5" id="principal">
+    <div class="row g-5">
+        <div class="col-md-7 p-lg-7 mx-auto my-7">
+            <form method="post" action="#"
+                  th:action="${libroForm.id} ? @{/libro/edit/submit} : @{/libro/new/submit}"
+                  th:object="${libroForm}">
+                <h2 class="mb-3 text-center text-bg-primary" th:text="${libroForm.id} ? #{form.cabecera.editar} : #{form.cabecera.nuevo}">Nuevo libro</h2>
+                <div class="row g-3">
+                    <div class="row g-3">
+                        <input type="hidden" id="id" name="id" th:field="*{id}" />
+                        <div class="col-sm-6">
+                            <label for="titulo" class="form-label" th:text="#{list.titulo}">Título</label>
+                            <input type="text" class="form-control" id="titulo" placeholder="Titulo" th:field="*{titulo}" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="autor" class="form-label" th:text="#{list.autor}">Autor</label>
+                            <input type="text" class="form-control" id="autor" placeholder="Autor" th:field="*{autor}" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="anioPublicacion" class="form-label" th:text="#{list.publicacion}">Año Publicación</label>
+                            <input type="text" class="form-control" id="anioPublicacion" placeholder="2022" th:field="*{anioPublicacion}" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="anioEdicion" class="form-label" th:text="#{list.edicion}">Año Edición</label>
+                            <input type="text" class="form-control" id="anioEdicion" placeholder="2022" th:field="*{anioEdicion}" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="editorial" class="form-label" th:text="#{list.editorial}">Editorial</label>
+                            <input type="text" class="form-control" id="editorial" placeholder="Editorial" th:field="*{editorial}" />
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="cantidad" class="form-label" th:text="#{list.cantidad}">Cantidad</label>
+                            <input type="text" class="form-control" id="cantidad" placeholder="Cantidad" th:field="*{cantidad}" />
+                        </div>
+                        <div class="col-sm-6 ">
+                            <label for="observaciones" class="form-label" th:text="#{list.obervaciones}">Observaciones</label>
+                            <textarea rows="2" cols="37" name="lines" id="observaciones" th:field="*{observaciones}"></textarea>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="idioma" th:text="#{list.idioma}">Idioma</label>
+                            <select class="form-control selectpicker" id="idioma" th:field="*{idioma}" th:value="${tipo}" >
+                                <option value="">Sin seleccionar</option>
+                                <option th:each="tipo : ${listaIdiomas}"
+                                        th:value="${tipo}" th:text="${tipo}" >
+                                </option>
+                            </select>
+
+                        </div>
+
+                        /<div class="col-sm-6 form-group">
+                            <label for="genero" th:text="#{list.genero}">Género</label>
+                            <select class="form-control selectpicker" id="genero" th:field="*{genero}" th:value="${tipo}" >
+                                <option value="">Sin seleccionar</option>
+                            <option th:each="tipo : ${T(es.cristinagc.practica1.entidades.Genero1).values()}"
+                                    th:value="${tipo}" th:text="${tipo}" >
+                            </option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-sm-6 form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="disponible" th:field="*{disponible}">
+                            <label class="form-check-label" for="disponible" th:text="#{list.disponible}">Está disponible</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary" th:text="#{form.enviar}">Enviar</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="fragmentos::pie_pagina"></footer>
+
+
+<th:block th:replace="fragmentos::jsfinal(~{})"></th:block>
+
+</body>
+</html>
