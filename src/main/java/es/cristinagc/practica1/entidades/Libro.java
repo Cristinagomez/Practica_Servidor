@@ -7,11 +7,9 @@ package es.cristinagc.practica1.entidades;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -37,13 +35,23 @@ public class Libro {
     private String editorial;
     @ManyToOne
     private Idioma idioma;
-    //@NotNull(message = "{libro.genero.notnull}")
-    private Genero genero;
+
+
+    @ManyToMany
+    @JoinTable(name = "libro_genero",
+            joinColumns = @JoinColumn(name = "libro_id"),
+            inverseJoinColumns = @JoinColumn(name = "genero_id")
+    )
+    private List<Genero> generos;
+
     private boolean disponible;
     @Pattern(regexp = "^[1-9]{1}", message = "{libro.cantidad.digitos}")
     private String cantidad;
     @Size(max = 50, message = "{libro.observaciones.max}")
     private String observaciones;
+    @OneToOne
+    private Codigo codigo;
+
 
 
 

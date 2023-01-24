@@ -2,10 +2,9 @@ package es.cristinagc.practica1.entidades;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +20,7 @@ public class Idioma {
     private long id;
     @NotEmpty
     private String nombre;
+
+    @OneToMany(mappedBy = "idioma", fetch = FetchType.EAGER)
+    private List<Libro> libros;
 }

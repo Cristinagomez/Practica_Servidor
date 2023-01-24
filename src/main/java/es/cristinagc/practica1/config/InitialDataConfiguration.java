@@ -1,8 +1,10 @@
 package es.cristinagc.practica1.config;
 
+import es.cristinagc.practica1.entidades.Codigo;
 import es.cristinagc.practica1.entidades.Genero;
 import es.cristinagc.practica1.entidades.Idioma;
 import es.cristinagc.practica1.entidades.Libro;
+import es.cristinagc.practica1.servicios.CodigoService;
 import es.cristinagc.practica1.servicios.GeneroService;
 import es.cristinagc.practica1.servicios.IdiomaService;
 import es.cristinagc.practica1.servicios.LibroService;
@@ -10,10 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -25,17 +27,42 @@ public class InitialDataConfiguration {
     @Autowired
     IdiomaService idiomaService;
 
+    @Autowired
+    GeneroService generoService;
+
+    @Autowired
+    CodigoService codigoService;
+
     @PostConstruct
     public void initLibros(){
         libroService.deleteAll();
         idiomaService.deleteAll();
+        generoService.deleteAll();
+        codigoService.deleteAll();
+
 
         Idioma idioma1= Idioma.builder().nombre("Español").build();
         Idioma idioma2= Idioma.builder().nombre("Inglés").build();
         Idioma idioma3= Idioma.builder().nombre("Italiano").build();
 
+        Genero genero1 = Genero.builder().nombre("Fantasía").build();
+        Genero genero2 = Genero.builder().nombre("Alegórico").build();
+
+        Codigo codigo1 = Codigo.builder().codigo("FT001").ubicacion("Planta 1 - Estantería 12").build();
+        Codigo codigo2 = Codigo.builder().codigo("SC002").ubicacion("Planta 2 - Estantería 8").build();
+        Codigo codigo3 = Codigo.builder().codigo("GH001").ubicacion("Planta 1 - Estantería 10").build();
+        Codigo codigo4 = Codigo.builder().codigo("PL003").ubicacion("Planta 1 - Estantería 2").build();
+        Codigo codigo5 = Codigo.builder().codigo("YD002").ubicacion("Planta 2 - Estantería 6").build();
+        Codigo codigo6 = Codigo.builder().codigo("MA002").ubicacion("Planta 1- Estantería 7").build();
+
         log.info("alta idiomas");
         idiomaService.saveAll(Arrays.asList(idioma1,idioma2,idioma3));
+
+        log.info("alta generos");
+        generoService.saveAll(Arrays.asList(genero1,genero2));
+
+        log.info("alta codigos");
+        codigoService.saveAll(Arrays.asList(codigo1,codigo2,codigo3,codigo4,codigo5, codigo6));
 
         log.info("alta libros");
         libroService.saveAll(
@@ -48,8 +75,9 @@ public class InitialDataConfiguration {
                                 .anioEdicion("2019")
                                 .editorial("Debolsillo")
                                 .idioma(idioma1)
-                                .genero(Genero.ALEGÓRICO)
+                                .generos(List.of(genero1))
                                 .disponible(true)
+                                .codigo(codigo1)
                                 .cantidad("2")
                                 .observaciones("").build(),
                         Libro.builder()
@@ -60,8 +88,9 @@ public class InitialDataConfiguration {
                                 .anioEdicion("2006")
                                 .editorial("Burlington")
                                 .idioma(idioma2)
-                                .genero(Genero.ALEGÓRICO)
+                                .generos(List.of(genero2))
                                 .disponible(false)
+                                .codigo(codigo2)
                                 .cantidad("1")
                                 .observaciones("El ejemplar está dañado").build(),
                         Libro.builder()
@@ -72,8 +101,9 @@ public class InitialDataConfiguration {
                                 .anioEdicion("2002")
                                 .editorial("Planeta")
                                 .idioma(idioma3)
-                                .genero(Genero.ALEGÓRICO)
+                                .generos(List.of(genero2))
                                 .disponible(true)
+                                .codigo(codigo3)
                                 .cantidad("4")
                                 .observaciones("").build(),
                         Libro.builder()
@@ -84,8 +114,9 @@ public class InitialDataConfiguration {
                                 .anioEdicion("2012")
                                 .editorial("Houghton Mifflin Harcourt")
                                 .idioma(idioma1)
-                                .genero(Genero.ALEGÓRICO)
+                                .generos(List.of(genero1))
                                 .disponible(true)
+                                .codigo(codigo4)
                                 .cantidad("2")
                                 .observaciones("").build(),
                         Libro.builder()
@@ -96,8 +127,9 @@ public class InitialDataConfiguration {
                                 .anioEdicion("2016")
                                 .editorial("Gallimard")
                                 .idioma(idioma3)
-                                .genero(Genero.ALEGÓRICO)
+                                .generos(List.of(genero1,genero2))
                                 .disponible(true)
+                                .codigo(codigo5)
                                 .cantidad("6")
                                 .observaciones("").build(),
                         Libro.builder()
@@ -108,8 +140,9 @@ public class InitialDataConfiguration {
                                 .anioEdicion("2005")
                                 .editorial("Macmillan Readers")
                                 .idioma(idioma2)
-                                .genero(Genero.ALEGÓRICO)
+                                .generos(List.of(genero2))
                                 .disponible(false)
+                                .codigo(codigo6)
                                 .cantidad("1")
                                 .observaciones("Perdido").build()
                 )

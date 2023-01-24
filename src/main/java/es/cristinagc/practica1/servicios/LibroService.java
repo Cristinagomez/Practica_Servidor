@@ -40,6 +40,12 @@ public class LibroService {
 
         return result;
     }
+
+    public List<Libro> findByAutorOrTittle(String filtro) {
+        List<Libro> result = repositorio.encuentraPorTituloAutorNativa(filtro);
+
+        return result;
+    }
     public List<Libro> buscador(String filtro) {
         List<Libro> result = repositorio.encuentraPorTituloAutorNativa(filtro);
 

@@ -1,6 +1,6 @@
 package es.cristinagc.practica1.servicios;
 
-import es.cristinagc.practica1.entidades.Genero1;
+import es.cristinagc.practica1.entidades.Genero;
 import es.cristinagc.practica1.repositorios.GeneroRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,13 @@ public class GeneroService {
 
     private final GeneroRepository repositorio;
 
-    public List<Genero1> findAll(){ return repositorio.findAll();}
+    public List<Genero> findAll(){ return repositorio.findAll();}
 
-    public void saveAll(List<Genero1> lista) {
+    public void saveAll(List<Genero> lista) {
         repositorio.saveAll(lista);
     }
 
-    public Genero1 findById(long id) {
+    public Genero findById(long id) {
         return repositorio.findById(id).orElse(null);
     }
 

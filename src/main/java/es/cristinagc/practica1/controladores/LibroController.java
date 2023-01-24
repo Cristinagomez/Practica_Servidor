@@ -4,6 +4,7 @@ package es.cristinagc.practica1.controladores;
  * @author Cristina Gómez Campos
  */
 
+import es.cristinagc.practica1.entidades.Genero;
 import es.cristinagc.practica1.entidades.Idioma;
 import es.cristinagc.practica1.entidades.Libro;
 import es.cristinagc.practica1.servicios.GeneroService;
@@ -33,9 +34,15 @@ public class LibroController {
     private final IdiomaService idiomaService;
     private final GeneroService generoService;
 
-    @ModelAttribute("listaDepartamentos")
-    public List<Idioma> listaDepartamentos() {
+
+    @ModelAttribute("listaIdiomas")
+    public List<Idioma> listaIdiomas() {
         return idiomaService.findAll();
+    }
+
+    @ModelAttribute("listaGeneros")
+    public List<Genero> listaGeneros() {
+        return generoService.findAll();
     }
     @GetMapping("/list")
     public String listado(@RequestParam(name="q", required=false) String query,Model model){
