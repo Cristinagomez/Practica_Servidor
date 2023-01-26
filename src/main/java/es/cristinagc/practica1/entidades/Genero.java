@@ -27,3 +27,4 @@ public class Genero {
     @ManyToMany(mappedBy = "generos")
     private List<Libro> libros;
 }
+

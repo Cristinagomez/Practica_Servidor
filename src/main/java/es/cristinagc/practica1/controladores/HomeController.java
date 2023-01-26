@@ -51,7 +51,6 @@ public class HomeController {
           cookie.setMaxAge(7 * 24 * 60 * 60);  // 7 días
           cookie.setSecure(true);
           cookie.setHttpOnly(true);
-
           response.addCookie(cookie);
 
         } else {

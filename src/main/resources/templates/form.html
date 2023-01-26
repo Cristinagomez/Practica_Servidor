@@ -40,10 +40,17 @@
                             <input type="text" class="form-control" id="editorial" placeholder="Editorial" th:field="*{editorial}" />
                         </div>
 
-                        <div class="col-sm-6">
-                            <label for="cantidad" class="form-label" th:text="#{list.cantidad}">Cantidad</label>
-                            <input type="text" class="form-control" id="cantidad" placeholder="Cantidad" th:field="*{cantidad}" />
+
+                        <div class="col-sm-6 form-group">
+                            <label for="codigo" th:text="#{list.codigo}">Código</label>
+                            <select class="form-control selectpicker" id="codigo" th:field="*{codigo}" th:value="${tipo}" >
+                                <option value="">Sin seleccionar</option>
+                                <option th:each="tipo : ${listaCodigos}"
+                                        th:value="${tipo.id}" th:text="${tipo.getCodigo()}" >
+                                </option>
+                            </select>
                         </div>
+
                         <div class="col-sm-6 ">
                             <label for="observaciones" class="form-label" th:text="#{list.obervaciones}">Observaciones</label>
                             <textarea rows="2" cols="37" name="lines" id="observaciones" th:field="*{observaciones}"></textarea>

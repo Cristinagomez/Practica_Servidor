@@ -45,8 +45,6 @@ public class Libro {
     private List<Genero> generos;
 
     private boolean disponible;
-    @Pattern(regexp = "^[1-9]{1}", message = "{libro.cantidad.digitos}")
-    private String cantidad;
     @Size(max = 50, message = "{libro.observaciones.max}")
     private String observaciones;
     @OneToOne

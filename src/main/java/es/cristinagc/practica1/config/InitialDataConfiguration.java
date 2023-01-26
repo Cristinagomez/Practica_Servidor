@@ -1,17 +1,12 @@
 package es.cristinagc.practica1.config;
 
-import es.cristinagc.practica1.entidades.Codigo;
-import es.cristinagc.practica1.entidades.Genero;
-import es.cristinagc.practica1.entidades.Idioma;
-import es.cristinagc.practica1.entidades.Libro;
-import es.cristinagc.practica1.servicios.CodigoService;
-import es.cristinagc.practica1.servicios.GeneroService;
-import es.cristinagc.practica1.servicios.IdiomaService;
-import es.cristinagc.practica1.servicios.LibroService;
+import es.cristinagc.practica1.entidades.*;
+import es.cristinagc.practica1.servicios.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -33,6 +28,33 @@ public class InitialDataConfiguration {
     @Autowired
     CodigoService codigoService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private PreferenciasService preferenciasService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostConstruct
+    public void initUsuarios() {
+        preferenciasService.deleteAll();
+        usuarioService.deleteAll();
+
+        Usuario usuario1 = Usuario.builder()
+                .username("user").password(passwordEncoder.encode("user")).role("ROLE_USER").build();
+        Preferencias prefs1 = Preferencias.builder().darkMode(true).idioma("en_US").usuario(usuario1).build();
+        preferenciasService.save(prefs1);
+        //usuario1 = usuarioService.registrar(usuario1);
+
+        Usuario usuario2 = Usuario.builder()
+                .username("admin").password(passwordEncoder.encode("admin")).role("ROLE_ADMIN").build();
+        Preferencias prefs2 = Preferencias.builder().darkMode(false).idioma("es_ES").usuario(usuario2).build();
+        preferenciasService.save(prefs2);
+        //usuario2 = usuarioService.registrar(usuario2);
+
+    }
     @PostConstruct
     public void initLibros(){
         libroService.deleteAll();
@@ -78,7 +100,6 @@ public class InitialDataConfiguration {
                                 .generos(List.of(genero1))
                                 .disponible(true)
                                 .codigo(codigo1)
-                                .cantidad("2")
                                 .observaciones("").build(),
                         Libro.builder()
                                 .id(2)
@@ -91,7 +112,6 @@ public class InitialDataConfiguration {
                                 .generos(List.of(genero2))
                                 .disponible(false)
                                 .codigo(codigo2)
-                                .cantidad("1")
                                 .observaciones("El ejemplar está dañado").build(),
                         Libro.builder()
                                 .id(3)
@@ -104,7 +124,6 @@ public class InitialDataConfiguration {
                                 .generos(List.of(genero2))
                                 .disponible(true)
                                 .codigo(codigo3)
-                                .cantidad("4")
                                 .observaciones("").build(),
                         Libro.builder()
                                 .id(4)
@@ -117,7 +136,6 @@ public class InitialDataConfiguration {
                                 .generos(List.of(genero1))
                                 .disponible(true)
                                 .codigo(codigo4)
-                                .cantidad("2")
                                 .observaciones("").build(),
                         Libro.builder()
                                 .id(5)
@@ -130,7 +148,6 @@ public class InitialDataConfiguration {
                                 .generos(List.of(genero1,genero2))
                                 .disponible(true)
                                 .codigo(codigo5)
-                                .cantidad("6")
                                 .observaciones("").build(),
                         Libro.builder()
                                 .id(6)
@@ -143,7 +160,6 @@ public class InitialDataConfiguration {
                                 .generos(List.of(genero2))
                                 .disponible(false)
                                 .codigo(codigo6)
-                                .cantidad("1")
                                 .observaciones("Perdido").build()
                 )
         );
