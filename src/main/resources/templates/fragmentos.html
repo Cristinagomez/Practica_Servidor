@@ -74,7 +74,7 @@
 </nav>
 
 <!-- Lista empleados -->
-<table class="table" id="lista-libros" th:fragment="lista-libros">
+<table class="table table-condensed table-striped "  id="lista-libros" th:fragment="lista-libros">
     <thead>
     <tr>
         <th th:text="#{list.id}">ID</th>
@@ -101,14 +101,14 @@
         <td th:text="${libro.anioPublicacion}"></td>
         <td th:text="${libro.anioEdicion}"></td>
         <td th:text="${libro.idioma.nombre}"></td>
-        <td th:text="${libro.generos}"></td>
+        <td th:each="genero : ${libro.generos}" th:text="${genero.nombre}"></td>
         <td th:text="${libro.observaciones}"></td>
         <td th:text="${libro.codigo.codigo}"></td>
         <td>
             <span th:if="${libro.disponible}" class="fa fa-book" aria-hidden="true"></span>
             <span th:unless="${libro.disponible}" class="fa fa-minus-circle" aria-hidden="true"></span>
         </td>
-        <td>
+        <td >
             <span th:if="${#authentication.name != 'invitado'}">
             <a th:href="@{/libro/edit/{id}(id=${libro.id})}" sec:authorize="isAuthenticated()" aria-label="Editar"><span class="fas fa-edit" aria-hidden="true"></span></a>
             </span>

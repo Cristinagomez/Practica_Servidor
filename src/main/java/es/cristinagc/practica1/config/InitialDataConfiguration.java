@@ -53,6 +53,11 @@ public class InitialDataConfiguration {
         Preferencias prefs2 = Preferencias.builder().darkMode(false).idioma("es_ES").usuario(usuario2).build();
         preferenciasService.save(prefs2);
         //usuario2 = usuarioService.registrar(usuario2);
+        Usuario usuario3 = Usuario.builder()
+                .username("invitado").password(passwordEncoder.encode("invitado")).role("ROLE_INVITADO").build();
+        Preferencias prefs3 = Preferencias.builder().darkMode(true).idioma("es_ES").usuario(usuario3).build();
+        preferenciasService.save(prefs3);
+        //usuario2 = usuarioService.registrar(usuario3);
 
     }
     @PostConstruct
