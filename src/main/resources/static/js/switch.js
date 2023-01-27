@@ -3,10 +3,6 @@
  */
 
 (function () {
-  let lightSwitch = document.getElementById('lightSwitch');
-  if (!lightSwitch) {
-    return;
-  }
 
   /**
    * @function darkmode
@@ -27,17 +23,12 @@
     }
 
     // Tables
-    var tables = document.querySelectorAll('table');
-    for (var i = 0; i < tables.length; i++) {
+    let tables = document.querySelectorAll('table');
+    for (let i = 0; i < tables.length; i++) {
       // add table-dark class to each table
       tables[i].classList.add('table-dark');
     }
 
-    // set light switch input to true
-    if (!lightSwitch.checked) {
-      lightSwitch.checked = true;
-    }
-    localStorage.setItem('lightSwitch', 'dark');
   }
 
   /**
@@ -58,17 +49,13 @@
     }
 
     // Tables
-    var tables = document.querySelectorAll('table');
-    for (var i = 0; i < tables.length; i++) {
+    let tables = document.querySelectorAll('table');
+    for (let i = 0; i < tables.length; i++) {
       if (tables[i].classList.contains('table-dark')) {
         tables[i].classList.remove('table-dark');
       }
     }
 
-    if (lightSwitch.checked) {
-      lightSwitch.checked = false;
-    }
-    localStorage.setItem('lightSwitch', 'light');
   }
 
   /**
@@ -76,7 +63,7 @@
    * @summary: the event handler attached to the switch. calling @darkMode or @lightMode depending on the checked state.
    */
   function onToggleMode() {
-    if (lightSwitch.checked) {
+    if (lightSwitch) {
       darkMode();
     } else {
       lightMode();
@@ -96,17 +83,23 @@
   }
 
   function setup() {
-    var settings = localStorage.getItem('lightSwitch');
-    if (settings == null) {
-      settings = getSystemDefaultTheme();
-    }
 
-    if (settings == 'dark') {
-      lightSwitch.checked = true;
-    }
+    $.ajax({
+      type: "get",
+      url: "/prefs/list",
+      dataType: 'json',
+      success: function (data) {
+        if (data.darkMode) {
+          darkMode();
+        } else {
+          lightMode();
+        }
+      },
+      error: function (e) {
+        console.log(e);
+      }
+    });
 
-    lightSwitch.addEventListener('change', onToggleMode);
-    onToggleMode();
   }
 
   setup();

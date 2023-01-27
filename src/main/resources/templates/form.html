@@ -40,14 +40,15 @@
                             <input type="text" class="form-control" id="editorial" placeholder="Editorial" th:field="*{editorial}" />
                         </div>
 
-
-                        <div class="col-sm-6 form-group">
-                            <label for="codigo" th:text="#{list.codigo}">Código</label>
-                            <select class="form-control selectpicker" id="codigo" th:field="*{codigo}" th:value="${tipo}" >
-                                <option value="">Sin seleccionar</option>
-                                <option th:each="tipo : ${listaCodigos}"
-                                        th:value="${tipo.id}" th:text="${tipo.getCodigo()}" >
-                                </option>
+                        <div class="col-sm-6">
+                            <label class="control-label" for="codigo">Código</label>
+                            <select class="form-select" id="codigo" th:field="*{codigo}">
+                                <option th:if="${libroForm.codigo}"
+                                        th:value="${libroForm.codigo.id}" th:text="${libroForm.codigo.codigo}" selected></option>
+                                <option th:value="${null}">Sin seleccionar</option>
+                                <optgroup label="Disponibles">
+                                    <option th:each="codigo : ${librosDisponibles}" th:value="${codigo.id}" th:text="${codigo.codigo}"></option>
+                                </optgroup>
                             </select>
                         </div>
 
@@ -69,13 +70,12 @@
 
                         <div class="col-sm-6 form-group">
                             <label for="genero" th:text="#{list.genero}">Género</label>
-                            <select class="form-control selectpicker" id="genero" th:field="*{generos}" th:value="${tipo}" >
+                            <select multiple class="form-control selectpicker" id="genero" th:field="*{generos}" th:value="${tipo}" >
                                 <option value="">Sin seleccionar</option>
                             <option th:each="tipo : ${listaGeneros}"
                                     th:value="${tipo.id}" th:text="${tipo.getNombre()}" >
                             </option>
                             </select>
-
                         </div>
 
                         <div class="col-sm-6 form-check form-switch">

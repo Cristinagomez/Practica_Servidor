@@ -10,6 +10,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class Libro {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     @NotEmpty(message = "{libro.titulo.notempty}")
     private String titulo;
     @NotEmpty(message = "{libro.autor.notemty}")
@@ -42,7 +43,7 @@ public class Libro {
             joinColumns = @JoinColumn(name = "libro_id"),
             inverseJoinColumns = @JoinColumn(name = "genero_id")
     )
-    private List<Genero> generos;
+    private Set<Genero> generos;
 
     private boolean disponible;
     @Size(max = 50, message = "{libro.observaciones.max}")

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -48,9 +49,9 @@ public class LibroController {
         return generoService.findAll();
     }
 
-    @ModelAttribute("listaCodigos")
-    public List<Codigo> listaCodigos() {
-        return codigoService.findAll();
+    @ModelAttribute("librosDisponibles")
+    public List<Codigo> librosDisponibles() {
+        return codigoService.findDisponibles();
     }
 
     @GetMapping("/list")
@@ -105,7 +106,16 @@ public class LibroController {
         if (bindingResult.hasErrors()){
             return "form";
         }else {
-            servicio.edit(libro);
+            Optional<Codigo> codigoAntiguo = codigoService.findByLibroId(libro.getId());
+            codigoAntiguo.ifPresent((cod -> {cod.setLibro(null);
+            codigoService.save(cod);
+            }));
+
+            Codigo codigo = libro.getCodigo();
+            if (codigo != null){
+                codigo.setLibro(libro);
+            }
+            servicio.save(libro);
             return "redirect:/libro/list";
         }
     }

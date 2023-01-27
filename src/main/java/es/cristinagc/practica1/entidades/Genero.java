@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +26,6 @@ public class Genero {
     private String nombre;
 
     @ManyToMany(mappedBy = "generos")
-    private List<Libro> libros;
+    private Set<Libro> libros;
 }
 

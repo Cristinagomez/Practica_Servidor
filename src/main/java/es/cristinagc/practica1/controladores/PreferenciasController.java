@@ -6,6 +6,7 @@ import es.cristinagc.practica1.servicios.PreferenciasService;
 import es.cristinagc.practica1.servicios.UsuarioService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +40,17 @@ public class PreferenciasController {
         log.info("Preferencias {}", preferencias);
         Usuario usuario = usuarioService.findById(preferencias.getId());
         preferencias.setUsuario(usuario);
-        log.info("Preferencias Paso 2 {}", preferencias);
         preferenciasService.saveAuth(preferencias);
-        return "redirect:/empleado/list";
+        return "redirect:/libro/list?lang=" + preferencias.getIdioma();
     }
+
+    @GetMapping(value = "/list", produces = "application/json")
+    public ResponseEntity<Object> listaPreferencias() {
+        Preferencias prefs = preferenciasService.findUsuarioPreferencias().orElse(null);
+        return ResponseEntity.ok().body(Map.of(
+                "darkMode", prefs.isDarkMode(),
+                "idioma", prefs.getIdioma()));
+    }
+
+
 }
