@@ -36,15 +36,12 @@ public class Libro {
     private String editorial;
     @ManyToOne
     private Idioma idioma;
-
-
     @ManyToMany
     @JoinTable(name = "libro_genero",
             joinColumns = @JoinColumn(name = "libro_id"),
             inverseJoinColumns = @JoinColumn(name = "genero_id")
     )
     private Set<Genero> generos;
-
     private boolean disponible;
     @Size(max = 50, message = "{libro.observaciones.max}")
     private String observaciones;

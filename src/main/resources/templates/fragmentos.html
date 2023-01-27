@@ -36,7 +36,7 @@
                 </li>
             </ul>
 
-            <div class="dropdown text-end">
+            <div class="dropdown dropstart text-end">
                 <button type="button" class="btn btn-primary m-1" sec:authorize="!isAuthenticated()">
                     <i class="fa fa-user"></i><a class="text-white" th:href="@{/libro/list}">Iniciar sesión</a>
                 </button>
@@ -44,10 +44,6 @@
                     <i class="fa fa-user"></i><span  th:text="' ' + ${#authentication.name}">Opciones</span>
                 </button>
                 <ul class="dropdown-menu text-center" sec:authorize="isAuthenticated()" >
-                    <li>
-                        <span class="dropdown-item" th:text="#{header.menu.visitas} + ': ' + ${session.num_visitas}"></span>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item"  href=""
                            th:href="@{/libro/list}"><i class="fa fa-list"></i> <span th:text="#{header.libros}">Listado</span></a></li>
                     <li><hr class="dropdown-divider"></li>
