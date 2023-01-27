@@ -10,6 +10,7 @@
 
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet">
+
     <th:block th:replace="${enlaces}"></th:block>
 
 </head>
@@ -70,7 +71,7 @@
 </nav>
 
 <!-- Lista empleados -->
-<table class="table table-condensed table-striped "  id="lista-libros" th:fragment="lista-libros">
+<table class="table table-light table-hover " id="lista-libros" th:fragment="lista-libros">
     <thead>
     <tr>
         <th th:text="#{list.id}">ID</th>
@@ -97,7 +98,8 @@
         <td th:text="${libro.anioPublicacion}"></td>
         <td th:text="${libro.anioEdicion}"></td>
         <td th:text="${libro.idioma.nombre}"></td>
-        <td th:each="genero : ${libro.generos}" th:text="${genero.nombre}"></td>
+        <td >
+        <div th:each="genero : ${libro.generos}" th:text="${genero.nombre}"></div></td>
         <td th:text="${libro.observaciones}"></td>
         <td th:text="${libro.codigo.codigo}"></td>
         <td>
