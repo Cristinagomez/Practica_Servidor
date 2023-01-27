@@ -26,3 +26,20 @@
 - El cambio de idioma y el modo oscuro ya no están en la barra de menú, pasan a estar en la pestaña de editar preferencias.
 
 ### **Relaciones:**
+`En Libro` 
+  - idioma  @ManyToOne
+  - generos @ManyToMany
+  - codigo @OneToOne
+
+`En Codigo`
+  - libro @OneToOne
+
+`En Genero`
+  - libros @ManyToMany
+
+`En Idioma`
+  - libros @OneToMany
+
+`En Preferencias`
+  - usuario @OneToOne
+
