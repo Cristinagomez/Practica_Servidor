@@ -19,7 +19,7 @@
 
 - El atributo cantidad desaparece de la entidad Libro.
 - Se añadió el atributo código a la entidad Libro.
-- El atributo genero ahora es una lista,ya que un libro puede tener varios géneros. Y ahora e suna entidad de tipo class y no un enumerado.
+- El atributo genero ahora es una lista,ya que un libro puede tener varios géneros. Y ahora es una entidad de tipo class y no un enumerado.
 - El atributo idioma deja de ser un enumerado y pasa a ser una entidad de tipo class.
 - Nuevas entidades: Codigo, Genero, Idioma, Preferencias, Usuario.
 - En el menú de las vistas ya no aparece el contador de visitas.
