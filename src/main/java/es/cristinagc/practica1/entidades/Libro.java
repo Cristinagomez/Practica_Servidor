@@ -5,6 +5,7 @@ package es.cristinagc.practica1.entidades;
  */
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,6 +35,7 @@ public class Libro {
     private String anioEdicion;
     @Pattern(regexp = "^[a-zA-Z ]{2,254}", message = "{libro.editorial.letras}")
     private String editorial;
+    @JsonIgnore
     @ManyToOne
     private Idioma idioma;
     @ManyToMany
