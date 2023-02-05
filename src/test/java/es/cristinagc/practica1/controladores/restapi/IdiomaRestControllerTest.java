@@ -52,6 +52,14 @@ class IdiomaRestControllerTest {
     }
 
     @Test
+    void getAllIdiomas_exception () throws Exception {
+        Mockito.when(idiomaService.findAll()).thenThrow(RuntimeException.class);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/idiomas")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
+    }
+    @Test
     public void getOneIdioma_success() throws Exception {
         Idioma idm1 = Idioma.builder().nombre("Francés").build();
         Mockito.when(idiomaService.findById(Datasets.IDM_ID_1))
@@ -64,4 +72,15 @@ class IdiomaRestControllerTest {
                 .andExpect(jsonPath("$.nombre", Matchers.is("Francés")));
 
     }
+
+    @Test
+    void getOneIdioma_notfound () throws Exception {
+        Mockito.when(idiomaService.findById(Datasets.IDM_ID_1))
+                .thenReturn(Optional.ofNullable(null));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/idiomas/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
 }
