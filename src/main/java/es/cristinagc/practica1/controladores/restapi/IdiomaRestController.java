@@ -35,10 +35,23 @@ public class IdiomaRestController {
 
     @CrossOrigin
     @GetMapping({ "/{id}" })
-    public ResponseEntity<Idioma> detalle(@PathVariable("id") Long id) {
+    public ResponseEntity<Idioma> getOne(@PathVariable("id") Long id) {
         Optional<Idioma> idioma = idiomaService.findById(id);
         return idioma.map(i -> new ResponseEntity<>(i, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
+
+    @CrossOrigin
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody Idioma idioma) {
+        try {
+            Long id = idiomaService.save(idioma).getId();
+            return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @CrossOrigin
