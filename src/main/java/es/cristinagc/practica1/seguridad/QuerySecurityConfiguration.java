@@ -1,4 +1,4 @@
-package es.cristinagc.practica1.config;
+package es.cristinagc.practica1.seguridad;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;

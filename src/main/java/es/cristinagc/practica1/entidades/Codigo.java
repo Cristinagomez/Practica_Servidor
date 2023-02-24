@@ -20,6 +20,7 @@ public class Codigo {
     @NotEmpty
     private String codigo;
     private String ubicacion;
+    @ToString.Exclude
     @OneToOne(mappedBy = "codigo")
     @JoinColumn(unique = true)
     private Libro libro;

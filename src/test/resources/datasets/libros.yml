@@ -1,0 +1,33 @@
+
+libro:
+  - id: 1
+    titulo: "Drácula"
+    autor: "Bram Stoker"
+    anio_publicacion: "1897"
+    anio_edicion: "2019"
+    editorial: "Debolsillo"
+    disponible: true
+    observaciones: "Perfecto estado"
+  - id: 2
+    titulo: "El resplandor"
+    autor: "Stephen King"
+    anio_publicacion: "1977"
+    anio_edicion: "2006"
+    editorial: "Burlington"
+    disponible: false
+    observaciones: "El ejemplar está dañado"
+
+libro_genero:
+    - libro_id: 1
+      genero_id: 3
+    - libro_id: 1
+      genero_id: 2
+    - libro_id: 2
+      genero_id: 1
+    - libro_id: 2
+      genero_id: 3
+
+
+
+
+

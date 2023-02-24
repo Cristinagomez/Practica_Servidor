@@ -24,4 +24,14 @@ public class Idioma {
     @JsonIgnore
     @OneToMany(mappedBy = "idioma", fetch = FetchType.EAGER)
     private List<Libro> libros;
+
+    public void addLibro (Libro l) {
+        libros.add(l);
+        l.setIdioma(this);
+    }
+
+    public void removeLibro (Libro l) {
+        libros.remove(l);
+        l.setIdioma(null);
+    }
 }

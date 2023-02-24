@@ -11,4 +11,6 @@ public interface CodigoRepository extends JpaRepository<Codigo, Long> {
     List<Codigo> findAllByLibroIsNull();
 
     Optional<Codigo> findByLibroId(Long id);
+
+
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PreferenciasRepository extends JpaRepository<Preferencias, Long> {
 
-    //@PreAuthorize("#entity.usuario.username == authentication.name")
+
     Preferencias save(Preferencias entity);
 
     @PostAuthorize("returnObject != null and returnObject.usuario.username == authentication.name")

@@ -1,0 +1,9 @@
+
+genero:
+  - id: 1
+    nombre: "Fantasía"
+  - id: 2
+    nombre: "Gótico"
+  - id: 3
+    nombre: "Novela negra"
+

@@ -4,4 +4,6 @@ import es.cristinagc.practica1.entidades.Idioma;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IdiomaRepository extends JpaRepository<Idioma, Long> {
+    Idioma findByNombre(String nombre);
+    boolean existsByNombre(String nombre);
 }

@@ -5,12 +5,11 @@ package es.cristinagc.practica1.entidades;
  */
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.List;
 import java.util.Set;
 
 
@@ -35,9 +34,10 @@ public class Libro {
     private String anioEdicion;
     @Pattern(regexp = "^[a-zA-Z ]{2,254}", message = "{libro.editorial.letras}")
     private String editorial;
-    @JsonIgnore
+    @ToString.Exclude
     @ManyToOne
     private Idioma idioma;
+    @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "libro_genero",
             joinColumns = @JoinColumn(name = "libro_id"),

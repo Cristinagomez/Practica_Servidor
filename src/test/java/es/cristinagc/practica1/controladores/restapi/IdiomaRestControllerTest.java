@@ -1,17 +1,24 @@
 package es.cristinagc.practica1.controladores.restapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import es.cristinagc.practica1.dto.JpaMapper;
 import es.cristinagc.practica1.entidades.Idioma;
-import es.cristinagc.practica1.repositorios.Datasets;
+import es.cristinagc.practica1.Datasets;
+import es.cristinagc.practica1.repositorios.IdiomaRepository;
+import es.cristinagc.practica1.seguridad.jwt.JwtTokenProvider;
 import es.cristinagc.practica1.servicios.IdiomaService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -36,10 +43,25 @@ class IdiomaRestControllerTest {
 
     @MockBean
     private IdiomaService idiomaService;
-
+    @MockBean
+    private IdiomaRepository idiomaRepository;
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private JpaMapper dtoMapper = Mappers.getMapper( JpaMapper.class );
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public JpaMapper dtoMapper() {
+            return Mappers.getMapper( JpaMapper.class );
+        }
+    }
     @Test
     public void getAll_shouldReturnListOfIdiomas () throws Exception {
         Idioma idm1 = Idioma.builder().nombre("Francés").build();
